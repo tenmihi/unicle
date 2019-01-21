@@ -1,5 +1,5 @@
 const admin = require("firebase-admin");
-const serviceAccount = require("../../unito-15c02-firebase-adminsdk-pk2ly-141721e768.json");
+const serviceAccount = require("../../firebase-adminsdk-key.json");
 import { md5 } from './md5';
 import { url } from 'inspector';
 
