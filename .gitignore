@@ -4,3 +4,9 @@ jspm_packages
 
 # Serverless directories
 .serverless
+
+# Firebase Key
+/*-firebase-adminsdk-*.json
+
+# Bundle
+/bundle.js

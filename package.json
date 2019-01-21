@@ -1,0 +1,36 @@
+{
+  "name": "unito-bookmarker",
+  "version": "0.0.1",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "build": "webpack --config=webpack.dev.conf.js",
+    "serve": "npm run build && sls offline",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tenmihi/unito-bookmarker.git"
+  },
+  "author": "tenmihi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tenmihi/unito-bookmarker/issues"
+  },
+  "homepage": "https://github.com/tenmihi/unito-bookmarker#readme",
+  "dependencies": {
+    "@types/node": "^10.12.18",
+    "cheerio-httpcli": "^0.7.3",
+    "firebase-admin": "^6.5.0",
+    "moment": "^2.23.0",
+    "ogp-parser": "^0.4.1",
+    "webpack": "^4.28.4"
+  },
+  "devDependencies": {
+    "serverless-offline": "^4.0.0",
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.2.4",
+    "webpack-cli": "^3.2.1",
+    "webpack-node-externals": "^1.7.2"
+  }
+}
