@@ -1,14 +1,16 @@
 const path = require('path')
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   mode: 'development',
-  entry: path.resolve(__dirname, "./src/handler.ts"),
-  externals: ['aws-sdk'],
+  target: 'node',
+  externals: [nodeExternals()],
+  entry: path.resolve(__dirname, "./src/backend/handler.ts"),
   output: {
     path: path.resolve(__dirname),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    libraryTarget: "commonjs2"
   },
-  target: 'node',
   module: {
     rules: [
       {
@@ -21,9 +23,6 @@ module.exports = {
   resolve: {
     extensions: [
       '.ts',
-      '.js',
-      '.tsx',
-      '.jsx',
     ]
   }
 }

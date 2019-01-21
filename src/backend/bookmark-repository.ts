@@ -1,7 +1,6 @@
 const admin = require("firebase-admin");
 const serviceAccount = require("../../firebase-adminsdk-key.json");
 import { md5 } from './md5';
-import { url } from 'inspector';
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
