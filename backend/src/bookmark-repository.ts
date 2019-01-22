@@ -1,5 +1,5 @@
 const admin = require("firebase-admin");
-const serviceAccount = require("../../firebase-adminsdk-key.json");
+const serviceAccount = require("../firebase-adminsdk-key.json");
 import { md5 } from './md5';
 
 admin.initializeApp({

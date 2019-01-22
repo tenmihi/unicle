@@ -2,11 +2,11 @@
 node_modules
 jspm_packages
 
-# Serverless directories
+# serverless directories
 .serverless
 
-# Firebase Key
-/*firebase-adminsdk*.json
+# firebase Key
+*firebase-adminsdk*.json
 
-# Bundle
-/bundle.js
+# output files
+dist/

@@ -5,10 +5,10 @@ module.exports = {
   mode: 'development',
   target: 'node',
   externals: [nodeExternals()],
-  entry: path.resolve(__dirname, "./src/backend/handler.ts"),
+  entry: path.resolve(__dirname, "./src/handler.ts"),
   output: {
     path: path.resolve(__dirname),
-    filename: 'bundle.js',
+    filename: './dist/bundle.js',
     libraryTarget: "commonjs2"
   },
   module: {
