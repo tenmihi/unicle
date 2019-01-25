@@ -1,12 +1,7 @@
-interface Bookmark {
+interface Article {
   url: string
   title: string
   description: string
   image: string
-  site_name: string
-}
-
-interface Period {
-  from: Date
-  to: Date
+  host: string
 }

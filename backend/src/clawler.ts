@@ -1,44 +1,46 @@
-const Moment = require('moment');
+import { Moment } from "moment";
+
 const cheerio = require('cheerio-httpcli');
 
-const LIKE_COUNT = 3;
-const TAG = 'unity';
-const BASE_URL = 'http://b.hatena.ne.jp/search/tag';
+export class HatenaBookmarkClawler {
+  private TAG = 'unity';
+  private BASE_URL = 'http://b.hatena.ne.jp/search/tag';
+  private DATE_FORMAT = "YYYY-MM-DD"
+  private MAX_URL_COUNT = 5;
 
-async function fetchUrls (like_count: number, tag: string, period: Period) {
-  const query_param = {
-    q: tag,
-    sort: 'recent',
-    users: like_count,
-    safe: 'on',
-    date_begin: period.from,
-    date_end: period.to,
+  private like_count: number;
+
+  constructor (like_count = 3) {
+    this.like_count = like_count;
   }
-  
-  return await _fetch(BASE_URL, query_param);
-}
 
-async function _fetch (url: string, query_param: object) {
-  let urls: Array<string> = []; 
-  const result = await cheerio.fetch(url, query_param);
-  const $ = result.$;
-  //const article_count = result.$('h2.entrysearch-title > span.entrysearch-result').text.replace(/件数 ([0-9]+)/,'$1');
+  async fetchUrls (from: Moment, to: Moment) {
+    const query_param = {
+      q: this.TAG,
+      sort: 'recent',
+      users: this.like_count,
+      safe: 'on',
+      date_begin: from.format(this.DATE_FORMAT),
+      date_end: to.format(this.DATE_FORMAT),
+    }
 
-  result.$('div.centerarticle-entry')
-    .each((idx: number, elem: any) => {
+    return await this._fetch(this.BASE_URL, query_param);
+  }
+
+  private async _fetch (url: string, query_param: object) {
+    let urls: Array<string> = []; 
+    const result = await cheerio.fetch(url, query_param);
+    const $ = result.$;
+
+    result.$('div.centerarticle-entry')
+      .each((idx: number, elem: any) => {
         const article = $(elem);
-        const url   = article.find('h3.centerarticle-entry-title > a').attr('href');
-        //const likes = article.find('span.centerarticle-users > a').text().replace(/^([0-9]*) users$/, '$1');
+        const url = article.find('h3.centerarticle-entry-title > a').attr('href');
         urls.push(url);
-    });
+      });
 
-  return urls;
-}
+    urls.splice(0, this.MAX_URL_COUNT);
 
-export async function fetchUrlsInOneMonth () {
-  const FORMAT = 'YYYY-MM-DD';
-  const now = new Moment();
-  const one_month_ago = now.subtract(1, 'months');
-
-  return await fetchUrls(LIKE_COUNT, TAG, { from: one_month_ago.format(FORMAT), to: now.format(FORMAT) })
+    return urls;
+  }
 }

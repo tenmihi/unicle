@@ -1,16 +1,41 @@
-import { BookmarkRepository } from "./bookmark-repository";
-import { fetchUrlsInOneMonth } from "./clawler";
+import { BookmarkRepository } from "./repository";
+import { HatenaBookmarkClawler } from "./clawler";
 import { fetchOgp } from "./ogp-fetcher";
 
-module.exports.handler = async (event, context) => {
-  const urls = await fetchUrlsInOneMonth();
+import * as moment from 'moment';
 
-  const repository = new BookmarkRepository();
+const firebaseAdmin = require("firebase-admin");
+const serviceAccount = require("../firebase-adminsdk-key.json");
+
+function initializeFirebase(admin) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://unito-15c02.firebaseio.com"
+  });
+}
+
+function finishFirebase(admin) {
+  admin.app("[DEFAULT]").delete()
+}
+
+module.exports.update_articles = async (event, context) => {
+  const now = moment()
+  const one_month_ago = now.clone().subtract(1, 'months');
+
+  const clawler = new HatenaBookmarkClawler(3);
+  const urls = await clawler.fetchUrls(one_month_ago, now);
+
+  initializeFirebase(firebaseAdmin);
+
+  const repository = new BookmarkRepository(firebaseAdmin);
   const timestamp = Math.floor(Date.now() / 1000);
+
+  //console.log(urls)
 
   let bookmarks = [];
   for(let url of urls) {
     try {
+      console.log('url', url);
       const is_exists = await repository.isExistsByUrl(url);
       if (!is_exists) {
         const ogp = await fetchOgp(url);
@@ -34,8 +59,32 @@ module.exports.handler = async (event, context) => {
     }
   } 
 
+  finishFirebase(firebaseAdmin);
+
   return {
     statusCode: 200,
     body: JSON.stringify({ message: `update done. url_count: ${urls.length}, insert_count: ${bookmarks.length}` }),
   };
+};
+
+
+module.exports.fetch = async (event, context) => {
+  initializeFirebase(firebaseAdmin);
+
+  const repository = new BookmarkRepository(firebaseAdmin);
+
+  try {
+    const items = await repository.fetch();
+    finishFirebase(firebaseAdmin);
+    return {
+      statusCode: 200,
+      body: JSON.stringify(items),
+    };
+  } catch (err) {
+    finishFirebase(firebaseAdmin);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ message: err.message }),
+    };
+  } 
 };

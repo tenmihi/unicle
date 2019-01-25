@@ -56,11 +56,17 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  bookmark:
-    handler: bundle.handler
+  update_articles:
+    handler: ./dist/bundle.update_articles
     events:
       - http:
-          path: bookmark
+          path: update_articles
+          method: post
+  fetch:
+    handler: ./dist/bundle.fetch
+    events:
+      - http:
+          path: fetch
           method: get
 
 

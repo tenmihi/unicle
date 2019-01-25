@@ -1,11 +1,4 @@
-const admin = require("firebase-admin");
-const serviceAccount = require("../firebase-adminsdk-key.json");
 import { md5 } from './md5';
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://unito-15c02.firebaseio.com"
-});
 
 export class BookmarkRepository {
 
@@ -13,7 +6,7 @@ export class BookmarkRepository {
   
   client: any;
 
-  constructor () {
+  constructor (admin) {
     this.client = admin.firestore();
     this.client.settings({ timestampsInSnapshots: true }); 
   }
@@ -21,7 +14,6 @@ export class BookmarkRepository {
   async isExistsByUrl (url: string): Promise<any> {
     try {
       const doc_id = md5(url);
-      console.log('doc_id', doc_id);
       const doc = await this.client.collection(this.COLLECTION_NAME).doc(doc_id).get()
       return doc.exists;
     } catch (err) {
@@ -44,5 +36,25 @@ export class BookmarkRepository {
       throw err;
     }
   }
-  
+
+  async fetch(lastFetchedUrl: string = null): Promise<any> {
+    let collection = this.client.collection(this.COLLECTION_NAME)
+      .orderBy('timestamp')
+      .limit(10);
+
+    if (lastFetchedUrl) {
+      const doc_id = md5(lastFetchedUrl);
+      collection.startAfter(doc_id);
+    }
+
+    let items = [];
+    try {
+      const snapshot = await collection.get();
+      snapshot.forEach(doc => { items.push(doc.data()) });
+    } catch(err) {
+      throw err;
+    }
+    
+    return items;
+  }
 }
