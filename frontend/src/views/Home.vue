@@ -1,12 +1,9 @@
 <template>
-  <div>
-    <div class="hero-body">
-      <div class="container has-text-centered">
-        <img src="../../public/logo.png" width="128" height="80">
-        <p class="description">Untiyに関して話題になってる記事一覧をお届けします</p>
-      </div>
+  <div class="hero-foot">
+    <div v-if="is_loading">
+      <v-loading></v-loading>
     </div>
-    <div class="hero-foot">
+    <div v-else>
       <div v-for="(item, index) in items" :key="index">
         <v-article
           class="item"
@@ -15,18 +12,21 @@
         <hr>
       </div>
     </div>
+    <div>
+    </div>
   </div>
 </template>
 
 <script>
-import VArticle from '@/components/Article'
-import Pickup from '@/components/Pickup'
 import axios from 'axios'
+
+import VArticle from '@/components/Article'
+import VLoading from '@/components/Loading'
 
 export default {
   components: {
     VArticle,
-    Pickup,
+    VLoading,
   },
   data () {
     return {
@@ -34,8 +34,8 @@ export default {
     }
   },
   computed: {
-    pickup_article() {
-      return this.items[0]
+    is_loading () {
+      return this.items.length == 0
     }
   },
   async created () {
@@ -45,8 +45,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .description {
   color: gray;
 }
+
 </style>
