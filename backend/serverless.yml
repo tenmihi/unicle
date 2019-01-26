@@ -68,6 +68,7 @@ functions:
       - http:
           path: fetch
           method: get
+          cors: true
 
 
 #    The following are a few example events you can configure

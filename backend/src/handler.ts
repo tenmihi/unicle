@@ -77,12 +77,18 @@ module.exports.fetch = async (event, context) => {
     const items = await repository.fetch();
     finishFirebase(firebaseAdmin);
     return {
+      headers: {
+        "Access-Control-Allow-Origin" : "*"
+      },
       statusCode: 200,
       body: JSON.stringify(items),
     };
   } catch (err) {
     finishFirebase(firebaseAdmin);
     return {
+      headers: {
+        "Access-Control-Allow-Origin" : "*"
+      },
       statusCode: 500,
       body: JSON.stringify({ message: err.message }),
     };
