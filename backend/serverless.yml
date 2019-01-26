@@ -1,69 +1,33 @@
-# Welcome to Serverless!
-#
-# This file is the main config file for your service.
-# It's very minimal at this point and uses default values.
-# You can always add more config options for more control.
-# We've included some commented out config examples here.
-# Just uncomment any of them to get that config option.
-#
-# For full config options, check the docs:
-#    docs.serverless.com
-#
-# Happy Coding!
 
-service: unito-bookmarker # NOTE: update this with your service name
+service: unito-bookmarker
 
 plugins:
   - serverless-offline
 
-# You can pin your service to only deploy with a specific Serverless version
-# Check out our docs for more details
-# frameworkVersion: "=X.X.X"
-
 provider:
   name: aws
   runtime: nodejs8.10
-  stage: dev
+  stage: prod
   region: ap-northeast-1
 
-# you can add statements to the Lambda function's IAM Role here
-#  iamRoleStatements:
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:ListBucket"
-#      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:PutObject"
-#      Resource:
-#        Fn::Join:
-#          - ""
-#          - - "arn:aws:s3:::"
-#            - "Ref" : "ServerlessDeploymentBucket"
-#            - "/*"
-
-# you can define service wide environment variables here
-#  environment:
-#    variable1: value1
-
-# you can add packaging information here
-#package:
-#  include:
-#    - include-me.js
-#    - include-me-dir/**
-#  exclude:
-#    - exclude-me.js
-#    - exclude-me-dir/**
+package:
+  exclude:
+    - src/**
+    - tsconfig.json
+    - webpack.dev.conf.js
+    - webpack.prod.conf.js
+    - node_modules/.bin
+    - node_modules/.bin/*
 
 functions:
   update_articles:
-    handler: ./dist/bundle.update_articles
+    handler: dist/bundle.update_articles
     events:
       - http:
           path: update_articles
           method: post
   fetch:
-    handler: ./dist/bundle.fetch
+    handler: dist/bundle.fetch
     events:
       - http:
           path: fetch

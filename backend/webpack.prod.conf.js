@@ -2,7 +2,7 @@ const path = require('path')
 const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   target: 'node',
   externals: [nodeExternals()],
   entry: path.resolve(__dirname, "./src/handler.ts"),

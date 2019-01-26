@@ -6,7 +6,9 @@
   "scripts": {
     "build": "webpack --config=webpack.dev.conf.js",
     "serve": "npm run build && sls offline",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "webpack --config=webpack.prod.conf.js && sls deploy",
+    "postinstall": "npm rebuild --target=8.1.0 --target_arch=x64 --target_platform=linux --target_libc=glibc"
   },
   "repository": {
     "type": "git",
