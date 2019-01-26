@@ -1,18 +1,23 @@
 <template>
   <article class="media">
     <figure class="media-left">
-      <figure class="image is-96x96">
+      <figure class="image is-128x128">
         <img :src="item.image">
       </figure>
     </figure>
     <div class="media-content">
       <div class="content">
         <p>
-          <span class="is-size-4"><strong>{{ item.title }}</strong></span>
+          <a
+            class="is-size-5"
+            :href="item.url"
+          >
+            <strong>{{ item.title }} </strong>
+          </a>
           <br>
           {{ item.description }}
           <br>
-          <span style="color: gray;"><small>{{ item.site_name }}</small></span>
+          <span style="color: gray;"><small>from: {{ item.host }}</small></span>
         </p>
       </div>
     </div>
@@ -29,3 +34,13 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+a {
+  color: black;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+</style>

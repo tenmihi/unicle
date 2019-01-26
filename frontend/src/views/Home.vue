@@ -1,13 +1,14 @@
 <template>
   <div>
     <div class="hero-body">
-      <pickup
-        :item="pickup_article"
-      ></pickup>
+      <div class="container has-text-centered">
+        <img src="../../public/logo.png" width="128" height="80">
+      </div>
     </div>
     <div class="hero-foot">
       <div v-for="(item, index) in items" :key="index">
         <v-article
+          class="item"
           :item="item"
         ></v-article>
         <hr>
@@ -19,6 +20,7 @@
 <script>
 import VArticle from '@/components/Article'
 import Pickup from '@/components/Pickup'
+import axios from 'axios'
 
 const dummy = {
   title: 'TITLE TITLE TITLE',
@@ -35,13 +37,18 @@ export default {
   },
   data () {
     return {
-      items: [dummy, dummy, dummy, dummy]
+      items: []
+      //items: [dummy, dummy, dummy, dummy]
     }
   },
   computed: {
     pickup_article() {
       return this.items[0]
     }
+  },
+  async created () {
+    const { data } = await axios.get('https://t8mh9aeqbe.execute-api.ap-northeast-1.amazonaws.com/prod/fetch')
+    this.items = data
   }
 }
 </script>

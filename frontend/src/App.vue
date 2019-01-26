@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <nav class="navbar" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
       <div class="navbar-brand header">
-        <a class="navbar-item" href="https://bulma.io">
-          <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+        <a class="navbar-item">
+          About
         </a>
       </div>
     </nav>
@@ -13,8 +13,3 @@
   </div>
 </template>
 
-<style>
-.header {
-  height: 80px;
-}
-</style>
