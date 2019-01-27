@@ -4,6 +4,8 @@ import { fetchOgp } from "./ogp-fetcher";
 
 import * as moment from 'moment';
 
+const LIKE_COUNT = 2;
+
 const firebaseAdmin = require("firebase-admin");
 const serviceAccount = require("../firebase-adminsdk-key.json");
 
@@ -19,11 +21,10 @@ function finishFirebase(admin) {
 }
 
 module.exports.update_articles = async (event, context) => {
-  const now = moment()
-  const one_month_ago = now.clone().subtract(1, 'months');
+  const today = moment()
 
-  const clawler = new HatenaBookmarkClawler(3);
-  const urls = await clawler.fetchUrls(one_month_ago, now);
+  const clawler = new HatenaBookmarkClawler(LIKE_COUNT);
+  const urls = await clawler.fetchUrls(today, today);
 
   initializeFirebase(firebaseAdmin);
 

@@ -23,9 +23,7 @@ functions:
   update_articles:
     handler: dist/bundle.update_articles
     events:
-      - http:
-          path: update_articles
-          method: post
+      - schedule: cron(59 2,8,14,20 * * ? *)
   fetch:
     handler: dist/bundle.fetch
     events:
