@@ -34,7 +34,4 @@ functions:
   update_articles_in_one_week:
     handler: dist/bundle.update_articles_in_one_week
     events:
-      - http:
-          path: update_articles_in_one_week
-          method: get
 
