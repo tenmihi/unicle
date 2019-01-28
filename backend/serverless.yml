@@ -21,7 +21,7 @@ package:
 
 functions:
   update_articles:
-    handler: dist/bundle.update_articles
+    handler: dist/bundle.update_articles_today
     events:
       - schedule: cron(59 2,8,14,20 * * ? *)
   fetch:
@@ -31,3 +31,10 @@ functions:
           path: fetch
           method: get
           cors: true
+  update_articles_in_one_week:
+    handler: dist/bundle.update_articles_in_one_week
+    events:
+      - http:
+          path: update_articles_in_one_week
+          method: get
+

@@ -20,7 +20,7 @@ function finishFirebase(admin) {
   admin.app("[DEFAULT]").delete()
 }
 
-module.exports.update_articles = async (event, context) => {
+module.exports.update_articles_today = async (event, context) => {
   const today = moment()
 
   const clawler = new HatenaBookmarkClawler(LIKE_COUNT);
@@ -31,22 +31,19 @@ module.exports.update_articles = async (event, context) => {
   const repository = new BookmarkRepository(firebaseAdmin);
   const timestamp = Math.floor(Date.now() / 1000);
 
-  //console.log(urls)
-
   let bookmarks = [];
-  for(let url of urls) {
-    try {
-      console.log('url', url);
+  try {
+    for(let url of urls) {
       const is_exists = await repository.isExistsByUrl(url);
       if (!is_exists) {
         const ogp = await fetchOgp(url);
         bookmarks.push(Object.assign(ogp, { timestamp }));
       }
-    } catch (err) {
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ message: err.message }),
-      }
+    }
+  } catch (err) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ message: err.message }),
     }
   }
 
@@ -67,7 +64,6 @@ module.exports.update_articles = async (event, context) => {
     body: JSON.stringify({ message: `update done. url_count: ${urls.length}, insert_count: ${bookmarks.length}` }),
   };
 };
-
 
 module.exports.fetch = async (event, context) => {
   initializeFirebase(firebaseAdmin);
@@ -94,4 +90,47 @@ module.exports.fetch = async (event, context) => {
       body: JSON.stringify({ message: err.message }),
     };
   } 
+};
+
+module.exports.update_articles_in_one_week = async (event, context) => {
+  initializeFirebase(firebaseAdmin);
+
+  const clawler = new HatenaBookmarkClawler(LIKE_COUNT);
+  const repository = new BookmarkRepository(firebaseAdmin);
+
+  const date = moment()
+  let bookmarks = [];
+
+  try {
+    for(let i=0; i < 7; i++) {
+      const urls = await clawler.fetchUrls(date, date);
+      const timestamp = Math.floor(date.valueOf() / 1000);
+
+      for(let url of urls) {
+        const is_exists = await repository.isExistsByUrl(url);
+        if (!is_exists) {
+          const ogp = await fetchOgp(url);
+          bookmarks.push(Object.assign(ogp, { timestamp }));
+        }
+      }
+
+      date.subtract(1, 'days');
+    }
+
+    if (bookmarks.length > 0) await repository.bulkPut(bookmarks);
+
+  } catch (err) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ message: err.message }),
+    }
+  }
+
+  finishFirebase(firebaseAdmin);
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ message: `update done. updated articles: ${bookmarks.length}` }),
+  };
+  
 };

@@ -3,10 +3,9 @@ import { Moment } from "moment";
 const cheerio = require('cheerio-httpcli');
 
 export class HatenaBookmarkClawler {
-  private TAG = 'unity';
+  private TAG = 'Unity';
   private BASE_URL = 'http://b.hatena.ne.jp/search/tag';
   private DATE_FORMAT = "YYYY-MM-DD"
-  private MAX_URL_COUNT = 5;
 
   private like_count: number;
 
@@ -38,8 +37,6 @@ export class HatenaBookmarkClawler {
         const url = article.find('h3.centerarticle-entry-title > a').attr('href');
         urls.push(url);
       });
-
-    urls.splice(0, this.MAX_URL_COUNT);
 
     return urls;
   }
