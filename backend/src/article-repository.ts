@@ -1,6 +1,6 @@
 import { md5 } from './md5';
 
-export class BookmarkRepository {
+export class ArticleRepository {
 
   COLLECTION_NAME = 'bookmarks';
   
@@ -9,6 +9,10 @@ export class BookmarkRepository {
   constructor (admin) {
     this.client = admin.firestore();
     this.client.settings({ timestampsInSnapshots: true }); 
+  }
+
+  async filteringUrlByNotInserted (urls: Array<string>): Promise<Array<string>>{
+    return await Promise.all(urls.filter(async (url) => !(await this.isExistsByUrl(url)) ));
   }
 
   async isExistsByUrl (url: string): Promise<any> {

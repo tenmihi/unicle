@@ -1,0 +1,9 @@
+# はてなbookmarkから取ってくる記事のブックマーク数のしきい値
+bookmark_count_threshold: 2
+
+# はてなbookmark以外で対象のRSS
+rss:
+  - http://www.asset-sale.net/rss
+  - http://tsubakit1.hateblo.jp/rss/category/Unity
+  - http://baba-s.hatenablog.com/rss/category/Unity
+  - https://monry.hatenablog.com/rss/category/Unity

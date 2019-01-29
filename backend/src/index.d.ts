@@ -4,4 +4,5 @@ interface Article {
   description: string
   image: string
   host: string
+  timestamp: string
 }
