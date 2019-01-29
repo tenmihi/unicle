@@ -43,7 +43,7 @@ export class ArticleRepository {
 
   async fetch(lastFetchedUrl: string = null): Promise<any> {
     let collection = this.client.collection(this.COLLECTION_NAME)
-      .orderBy('timestamp')
+      .orderBy('timestamp','desc')
       .limit(10);
 
     if (lastFetchedUrl) {
