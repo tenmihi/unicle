@@ -39,8 +39,12 @@ export default {
 a {
   color: black;
 }
-
 a:hover {
   text-decoration: underline;
+}
+
+img {
+  height: 100% !important;
+  object-fit: contain;
 }
 </style>
