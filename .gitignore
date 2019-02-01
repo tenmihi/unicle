@@ -5,6 +5,9 @@ jspm_packages
 # serverless directories
 .serverless
 
+# netlify
+.netlify
+
 # firebase Key
 *firebase-adminsdk*.json
 
