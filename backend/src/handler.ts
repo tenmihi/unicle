@@ -15,7 +15,7 @@ const serviceAccount = require("../firebase-adminsdk-key.json");
 function initializeFirebase(admin) {
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://unito-15c02.firebaseio.com"
+    databaseURL: "https://unicle-8e106.firebaseio.com"
   });
 }
 

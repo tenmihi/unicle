@@ -2,7 +2,7 @@ import { md5 } from './md5';
 
 export class ArticleRepository {
 
-  COLLECTION_NAME = 'bookmarks';
+  COLLECTION_NAME = 'articles';
   
   client: any;
 
