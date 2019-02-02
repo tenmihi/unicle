@@ -1,4 +1,5 @@
 import * as moment from 'moment';
+const functions = require('firebase-functions');
 
 import config from './config';
 import { ArticleRepository } from "./article-repository";
@@ -21,8 +22,7 @@ function initializeFirebase(admin) {
 function finishFirebase(admin) {
   admin.app("[DEFAULT]").delete()
 }
-
-module.exports.update_by_hatena_bookmark = async (event, context) => {
+exports.update_by_hatena_bookmark = functions.https.onRequest(async (req, res) => {
   const today = moment().subtract(1, 'hours'); // 日またぎのタイミングで前日の分をとってきたいので
 
   const clawler = new HatenaBookmarkClawler(LIKE_COUNT);
@@ -39,21 +39,16 @@ module.exports.update_by_hatena_bookmark = async (event, context) => {
     
     if (articles.length > 0) await repository.bulkPut(articles);
   } catch (err) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ message: err.message }),
-    }
+    res.send({ message: err.message });
+    return;
   } 
 
   finishFirebase(firebaseAdmin);
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify({ message: `update done. url_count: ${urls.length}, insert_count: ${articles.length}` }),
-  };
-};
+  res.send({ message: `update done. url_count: ${urls.length}, insert_count: ${articles.length}` });
+});
 
-module.exports.update_by_rss = async (event, context) => {
+exports.update_by_rss = functions.https.onRequest(async (req, res) => {
   initializeFirebase(firebaseAdmin);
   
   const repository = new ArticleRepository(firebaseAdmin);
@@ -75,20 +70,15 @@ module.exports.update_by_rss = async (event, context) => {
 
   } catch(err) {
     finishFirebase(firebaseAdmin);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ message: err.message }),
-    };
+    res.send({ message: err.message });
+    return;
   }
   
   finishFirebase(firebaseAdmin);
-  return {
-    statusCode: 200,
-    body: JSON.stringify({ message: `update done. updated articles: ${urls.length}` }),
-  };
-};
+  res.send({ message: `update done. updated articles: ${urls.length}` });
+});
 
-module.exports.fetch = async (event, context) => {
+exports.fetch = functions.https.onRequest(async (req, res) => {
   initializeFirebase(firebaseAdmin);
 
   const repository = new ArticleRepository(firebaseAdmin);
@@ -96,26 +86,14 @@ module.exports.fetch = async (event, context) => {
   try {
     const items = await repository.fetch();
     finishFirebase(firebaseAdmin);
-    return {
-      headers: {
-        "Access-Control-Allow-Origin" : "*"
-      },
-      statusCode: 200,
-      body: JSON.stringify(items),
-    };
+    res.send({ items });
   } catch (err) {
     finishFirebase(firebaseAdmin);
-    return {
-      headers: {
-        "Access-Control-Allow-Origin" : "*"
-      },
-      statusCode: 500,
-      body: JSON.stringify({ message: err.message }),
-    };
+    res.send({ message: err.message });
   } 
-};
+});
 
-module.exports.update_articles_in_one_week = async (event, context) => {
+exports.update_articles_in_one_week = functions.https.onRequest(async (req, res) => {
   initializeFirebase(firebaseAdmin);
 
   const clawler = new HatenaBookmarkClawler(LIKE_COUNT);
@@ -127,7 +105,6 @@ module.exports.update_articles_in_one_week = async (event, context) => {
   try {
     for(let i=0; i < 7; i++) {
       const urls = await clawler.fetchUrls(date, date);
-      const timestamp = Math.floor(date.valueOf() / 1000);
 
       for(let url of urls) {
         const is_exists = await repository.isExistsByUrl(url);
@@ -136,24 +113,15 @@ module.exports.update_articles_in_one_week = async (event, context) => {
           bookmarks.push(article);
         }
       }
-
       date.subtract(1, 'days');
     }
 
     if (bookmarks.length > 0) await repository.bulkPut(bookmarks);
-
   } catch (err) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ message: err.message }),
-    }
+    res.send({ message: err.message });
+    return;
   }
 
   finishFirebase(firebaseAdmin);
-
-  return {
-    statusCode: 200,
-    body: JSON.stringify({ message: `update done. updated articles: ${bookmarks.length}` }),
-  };
-  
-};
+  res.send({ message: `update done. updated articles: ${bookmarks.length}` });
+});

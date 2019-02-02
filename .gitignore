@@ -2,10 +2,7 @@
 node_modules
 jspm_packages
 
-# serverless directories
-.serverless
-
-# netlify
+.firebase/
 .netlify/
 
 # firebase Key
@@ -13,3 +10,4 @@ jspm_packages
 
 # output files
 dist/
+backend/index.js

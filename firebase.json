@@ -1,0 +1,27 @@
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "functions": {
+    "source": "backend", 
+    "predeploy": "npm --prefix backend run build",
+    "ignore": [
+      "src/**",
+      "tsconfig.json",
+      "webpack.dev.conf.js",
+      "webpack.prod.conf.js",
+      "node_modules/.bin",
+      "node_modules/.bin/*"
+    ]
+  },
+  "hosting": {
+    "public": "frontend/dist",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

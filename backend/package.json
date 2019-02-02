@@ -2,13 +2,12 @@
   "name": "unicle",
   "version": "0.0.1",
   "description": "",
-  "main": "handler.js",
+  "main": "index.js",
   "scripts": {
     "build": "webpack --config=webpack.dev.conf.js",
     "serve": "npm run build && sls offline",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "webpack --config=webpack.prod.conf.js && sls deploy",
-    "postinstall": "npm rebuild --target=8.1.0 --target_arch=x64 --target_platform=linux --target_libc=glibc"
+    "deploy": "webpack --config=webpack.prod.conf.js && sls deploy"
   },
   "repository": {
     "type": "git",
@@ -21,17 +20,17 @@
   },
   "homepage": "https://github.com/tenmihi/unito-bookmarker#readme",
   "dependencies": {
-    "@types/node": "^10.12.18",
     "cheerio-httpcli": "^0.7.3",
     "firebase-admin": "^6.5.0",
+    "firebase-functions": "^2.2.0",
     "moment": "^2.23.0",
     "ogp-parser": "git+https://github.com/tenmihi/ogpParser#issues/13",
     "rss-parser": "^3.6.2",
-    "webpack": "^4.28.4",
     "yaml": "^1.3.1"
   },
   "devDependencies": {
-    "serverless-offline": "^4.0.0",
+    "webpack": "^4.28.4",
+    "@types/node": "^10.12.18",
     "ts-loader": "^5.3.3",
     "typescript": "^3.2.4",
     "webpack-cli": "^3.2.1",
