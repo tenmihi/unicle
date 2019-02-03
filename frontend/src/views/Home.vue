@@ -39,8 +39,8 @@ export default {
     }
   },
   async created () {
-    const { data } = await axios.get('https://1z0m934jxe.execute-api.ap-northeast-1.amazonaws.com/prod/fetch')
-    this.items = data
+    const { data } = await axios.get('https://us-central1-unicle-8e106.cloudfunctions.net/fetch')
+    this.items = data.items
   }
 }
 </script>

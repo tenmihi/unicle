@@ -10,9 +10,9 @@
     <div class="container">
       <div class="hero-body">
         <div class="logo">
-          <a href="/">
+          <router-link to="/">
             <img src="../public/logo.png" width="128" height="80">
-          </a>
+          </router-link>
           <p>Untiyに関して話題になってる記事一覧をお届けします</p>
         </div>
       </div>

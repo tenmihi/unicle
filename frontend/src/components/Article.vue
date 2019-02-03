@@ -17,7 +17,7 @@
           <br>
           {{ item.description }}
           <br>
-          <span style="color: gray;"><small>from: {{ item.host }}</small></span>
+          <span style="color: gray;"><small>from: {{ item.host }} date: {{ published_date }}</small></span>
         </p>
       </div>
     </div>
@@ -25,11 +25,19 @@
 </template>
 
 <script>
+import * as moment from 'moment'
+
 export default {
   props: {
     item: {
       type: Object,
       required: true,
+    }
+  },
+  computed: {
+    published_date () {
+      console.log(this.item.timestamp)
+      return moment.unix(this.item.timestamp).format('YYYY-MM-DD')
     }
   },
 }
