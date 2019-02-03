@@ -1,5 +1,7 @@
 import * as moment from 'moment';
 const functions = require('firebase-functions');
+import * as Cors from 'cors';
+const cors = Cors();
 
 import config from './config';
 import { ArticleRepository } from "./article-repository";
@@ -20,8 +22,9 @@ function initializeFirebase(admin) {
 }
 
 function finishFirebase(admin) {
-  admin.app("[DEFAULT]").delete()
+  admin.app("[DEFAULT]").delete();
 }
+
 exports.update_by_hatena_bookmark = functions.https.onRequest(async (req, res) => {
   const today = moment().subtract(1, 'hours'); // 日またぎのタイミングで前日の分をとってきたいので
 
@@ -86,10 +89,10 @@ exports.fetch = functions.https.onRequest(async (req, res) => {
   try {
     const items = await repository.fetch();
     finishFirebase(firebaseAdmin);
-    res.send({ items });
+    return cors(req, res, () => res.send({ items }) );
   } catch (err) {
     finishFirebase(firebaseAdmin);
-    res.send({ message: err.message });
+    return cors(req, res, () => res.send({ message: err.message }) );
   } 
 });
 

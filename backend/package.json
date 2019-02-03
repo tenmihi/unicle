@@ -21,6 +21,7 @@
   "homepage": "https://github.com/tenmihi/unito-bookmarker#readme",
   "dependencies": {
     "cheerio-httpcli": "^0.7.3",
+    "cors": "^2.8.5",
     "firebase-admin": "^6.5.0",
     "firebase-functions": "^2.2.0",
     "moment": "^2.23.0",
