@@ -2,11 +2,12 @@
 node_modules
 jspm_packages
 
-.firebase/
-.netlify/
+.firebase
 
-# firebase Key
+# private Key
 *firebase-adminsdk*.json
+auth.json
+.runtimeconfig.json
 
 # output files
 dist/

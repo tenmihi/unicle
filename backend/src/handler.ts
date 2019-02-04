@@ -2,8 +2,9 @@ import * as moment from 'moment';
 const functions = require('firebase-functions');
 import * as Cors from 'cors';
 const cors = Cors();
+const secureCompare = require('secure-compare');
 
-import config from './config';
+import { config } from './yaml-constant';
 import { ArticleRepository } from "./article-repository";
 import { HatenaBookmarkClawler } from "./hatenabookmark-clawler";
 import { buildArticle } from "./article-fetcher";
@@ -26,6 +27,12 @@ function finishFirebase(admin) {
 }
 
 exports.update_by_hatena_bookmark = functions.https.onRequest(async (req, res) => {
+  const key = req.query && req.query.key ? req.query.key : ''
+  if (!secureCompare(key, functions.config().auth.key)) {
+    res.status(403).send('Invalid auth key.');
+    return;
+  }
+
   const today = moment().subtract(1, 'hours'); // 日またぎのタイミングで前日の分をとってきたいので
 
   const clawler = new HatenaBookmarkClawler(LIKE_COUNT);
@@ -44,7 +51,7 @@ exports.update_by_hatena_bookmark = functions.https.onRequest(async (req, res) =
   } catch (err) {
     res.send({ message: err.message });
     return;
-  } 
+  }
 
   finishFirebase(firebaseAdmin);
 
@@ -52,6 +59,14 @@ exports.update_by_hatena_bookmark = functions.https.onRequest(async (req, res) =
 });
 
 exports.update_by_rss = functions.https.onRequest(async (req, res) => {
+  const key = req.query && req.query.key ? req.query.key : ''
+  if (!secureCompare(key, functions.config().auth.key)) {
+    console.log('A')
+    res.status(403).send('Invalid auth key.');
+    return;
+  }
+  console.log('B')
+
   initializeFirebase(firebaseAdmin);
   
   const repository = new ArticleRepository(firebaseAdmin);
@@ -94,37 +109,4 @@ exports.fetch = functions.https.onRequest(async (req, res) => {
     finishFirebase(firebaseAdmin);
     return cors(req, res, () => res.send({ message: err.message }) );
   } 
-});
-
-exports.update_articles_in_one_week = functions.https.onRequest(async (req, res) => {
-  initializeFirebase(firebaseAdmin);
-
-  const clawler = new HatenaBookmarkClawler(LIKE_COUNT);
-  const repository = new ArticleRepository(firebaseAdmin);
-
-  const date = moment()
-  let bookmarks = [];
-
-  try {
-    for(let i=0; i < 7; i++) {
-      const urls = await clawler.fetchUrls(date, date);
-
-      for(let url of urls) {
-        const is_exists = await repository.isExistsByUrl(url);
-        if (!is_exists) {
-          const article = await buildArticle(url, date);
-          bookmarks.push(article);
-        }
-      }
-      date.subtract(1, 'days');
-    }
-
-    if (bookmarks.length > 0) await repository.bulkPut(bookmarks);
-  } catch (err) {
-    res.send({ message: err.message });
-    return;
-  }
-
-  finishFirebase(firebaseAdmin);
-  res.send({ message: `update done. updated articles: ${bookmarks.length}` });
 });
