@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "deploy": "npm run build && netlify deploy"
+    "deploy": "npm run build && firebase deploy --only hosting"
   },
   "dependencies": {
     "axios": "^0.18.0",

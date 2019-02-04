@@ -39,7 +39,7 @@ export default {
     }
   },
   async created () {
-    const { data } = await axios.get('https://us-central1-unicle-8e106.cloudfunctions.net/fetch')
+    const { data } = await axios.get('https://asia-northeast1-unicle-8e106.cloudfunctions.net/fetch')
     this.items = data.items
   }
 }

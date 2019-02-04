@@ -26,7 +26,7 @@ function finishFirebase(admin) {
   admin.app("[DEFAULT]").delete();
 }
 
-exports.update_by_hatena_bookmark = functions.https.onRequest(async (req, res) => {
+exports.update_by_hatena_bookmark = functions.region('asia-northeast1').https.onRequest(async (req, res) => {
   const key = req.query && req.query.key ? req.query.key : ''
   if (!secureCompare(key, functions.config().auth.key)) {
     res.status(403).send('Invalid auth key.');
@@ -58,7 +58,7 @@ exports.update_by_hatena_bookmark = functions.https.onRequest(async (req, res) =
   res.send({ message: `update done. url_count: ${urls.length}, insert_count: ${articles.length}` });
 });
 
-exports.update_by_rss = functions.https.onRequest(async (req, res) => {
+exports.update_by_rss = functions.region('asia-northeast1').https.onRequest(async (req, res) => {
   const key = req.query && req.query.key ? req.query.key : ''
   if (!secureCompare(key, functions.config().auth.key)) {
     console.log('A')
@@ -96,7 +96,7 @@ exports.update_by_rss = functions.https.onRequest(async (req, res) => {
   res.send({ message: `update done. updated articles: ${urls.length}` });
 });
 
-exports.fetch = functions.https.onRequest(async (req, res) => {
+exports.fetch = functions.region('asia-northeast1').https.onRequest(async (req, res) => {
   initializeFirebase(firebaseAdmin);
 
   const repository = new ArticleRepository(firebaseAdmin);

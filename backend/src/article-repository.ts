@@ -44,7 +44,7 @@ export class ArticleRepository {
   async fetch(lastFetchedUrl: string = null): Promise<any> {
     let collection = this.client.collection(this.COLLECTION_NAME)
       .orderBy('timestamp','desc')
-      .limit(10);
+      .limit(20);
 
     if (lastFetchedUrl) {
       const doc_id = md5(lastFetchedUrl);
