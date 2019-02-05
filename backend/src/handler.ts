@@ -61,11 +61,9 @@ exports.update_by_hatena_bookmark = functions.region('asia-northeast1').https.on
 exports.update_by_rss = functions.region('asia-northeast1').https.onRequest(async (req, res) => {
   const key = req.query && req.query.key ? req.query.key : ''
   if (!secureCompare(key, functions.config().auth.key)) {
-    console.log('A')
     res.status(403).send('Invalid auth key.');
     return;
   }
-  console.log('B')
 
   initializeFirebase(firebaseAdmin);
   
@@ -97,6 +95,11 @@ exports.update_by_rss = functions.region('asia-northeast1').https.onRequest(asyn
 });
 
 exports.fetch = functions.region('asia-northeast1').https.onRequest(async (req, res) => {
+  const is_warmer = req.query && req.query.is_warmer ? new Boolean(req.query.is_warmer) : false
+  if(is_warmer) {
+    res.status(200).send('ok');
+  }
+
   initializeFirebase(firebaseAdmin);
 
   const repository = new ArticleRepository(firebaseAdmin);
