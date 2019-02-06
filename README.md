@@ -5,12 +5,12 @@ UnicleはWeb上に公開されたUnityに関する最新記事を集めてきて
 # 利用している技術
 
 ## backend
-- AWS Lambda
-- AWS ApiGateway
+- Firebase Cloud Functions
+- Firebase Hosting
 - Firebase Firestore
 
 ## frontend
 - Vue
 
 # 今後の展望
-- はてなbookmark以外にも情報元を増やす
+- 良さそうな記事選定方法を考える
