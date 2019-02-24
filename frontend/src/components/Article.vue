@@ -36,7 +36,6 @@ export default {
   },
   computed: {
     published_date () {
-      console.log(this.item.timestamp)
       return moment.unix(this.item.timestamp).format('YYYY-MM-DD')
     }
   },
