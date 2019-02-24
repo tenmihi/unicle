@@ -1,6 +1,15 @@
 import { Moment } from "moment";
 
-const ogp_parser = require('ogp-parser')
+const ogp_parser = require('ogp-parser');
+
+export interface Article {
+  url: string
+  title: string
+  description: string
+  image: string
+  host: string
+  timestamp: string
+}
 
 export async function buildArticle (url: string, date: Moment) : Promise<Article | null> {
   let article = null;

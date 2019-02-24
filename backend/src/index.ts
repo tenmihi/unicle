@@ -4,16 +4,16 @@ import * as Cors from 'cors';
 const cors = Cors();
 const secureCompare = require('secure-compare');
 
-import { config } from './yaml-constant';
-import { ArticleRepository } from "./article-repository";
-import { HatenaBookmarkClawler } from "./hatenabookmark-clawler";
-import { buildArticle } from "./article-fetcher";
-import { RssReader } from "./rss-reader";
+import { config } from './lib/yaml-constant';
+import { ArticleRepository } from "./lib/article-repository";
+import { HatenaBookmarkClawler } from "./lib/hatenabookmark-clawler";
+import { buildArticle } from "./lib/article-fetcher";
+import { RssReader } from "./lib/rss-reader";
 
 const LIKE_COUNT = 2;
 
 const firebaseAdmin = require("firebase-admin");
-const serviceAccount = require("../firebase-adminsdk-key.json");
+const serviceAccount = require("./firebase-adminsdk-key.json");
 
 function initializeFirebase(admin) {
   admin.initializeApp({

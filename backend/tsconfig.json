@@ -1,7 +1,21 @@
 {
   "compilerOptions": {
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    "module": "commonjs",
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "outDir": "./",
     "sourceMap": true,
-    "target": "es2015",
-    "module": "commonjs"
-  }
+    "target": "es2015"
+  },
+  "compileOnSave": true,
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

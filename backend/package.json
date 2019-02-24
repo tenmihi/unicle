@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config=webpack.dev.conf.js",
+    "build": "tsc",
     "serve": "npm run build && firebase serve --only functions",
+    "shell": "npm run build & firebase functions:shell",
     "deploy": "webpack --config=webpack.prod.conf.js && firebase deploy --only functions",
     "set_config": "firebase functions:config:set auth=\"$(cat auth.json)\""
   },
