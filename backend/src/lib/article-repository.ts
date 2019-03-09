@@ -1,4 +1,4 @@
-import { md5 } from './md5';
+import { md5 } from './util/md5';
 
 export class ArticleRepository {
 
