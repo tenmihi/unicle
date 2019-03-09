@@ -11,4 +11,6 @@ auth.json
 
 # output files
 dist/
+backend/lib
 backend/index.js
+backend/index.js.map
