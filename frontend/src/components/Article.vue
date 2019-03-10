@@ -9,15 +9,15 @@
       <div class="content">
         <p>
           <a
-            class="is-size-5"
             :href="item.url"
           >
-            <strong>{{ item.title }} </strong>
+            <strong
+              class="is-size-5-desktop article-title"
+              v-line-clamp="3"
+            >{{ item.title }}</strong>
           </a>
-          <br>
-          {{ item.description }}
-          <br>
-          <span style="color: gray;"><small>from: {{ item.host }} date: {{ published_date }}</small></span>
+          <span class="is-size-7-mobile article-description" v-line-clamp="3">{{ item.description }}</span>
+          <span class="is-size-7-mobile from-date"><small>from: {{ item.host }} date: {{ published_date }}</small></span>
         </p>
       </div>
     </div>
@@ -36,7 +36,6 @@ export default {
   },
   computed: {
     published_date () {
-      console.log(this.item.timestamp)
       return moment.unix(this.item.timestamp).format('YYYY-MM-DD')
     }
   },
@@ -54,5 +53,13 @@ a:hover {
 img {
   height: 100% !important;
   object-fit: contain;
+}
+
+.article-title, .article-description {
+  margin-bottom: 8px;
+}
+
+.from-date {
+  color:gray;
 }
 </style>

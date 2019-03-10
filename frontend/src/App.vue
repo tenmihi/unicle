@@ -13,7 +13,7 @@
           <router-link to="/">
             <img src="../public/logo.png" width="128" height="80">
           </router-link>
-          <p>Untiyに関して話題になってる記事一覧をお届けします</p>
+          <p class="is-size-7-mobile">Untiyに関して話題になってる記事一覧をお届けします</p>
         </div>
       </div>
       <router-view/>
