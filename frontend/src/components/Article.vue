@@ -64,6 +64,5 @@ img {
 }
 
 .media {
-  margin: 0px 8px;
 }
 </style>

@@ -2,6 +2,9 @@
   <div id="app">
     <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
       <div class="navbar-brand header">
+        <router-link class="navbar-item" to="/">
+          Home
+        </router-link>
         <router-link class="navbar-item" to="/about">
           About
         </router-link>
@@ -15,7 +18,7 @@
           </router-link>
         </div>
       </div>
-      <router-view/>
+      <router-view class="app-content" />
     </div>
   </div>
 </template>
@@ -26,5 +29,9 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+.app-content {
+  margin: 0px 16px;
 }
 </style>
