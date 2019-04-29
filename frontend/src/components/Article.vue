@@ -62,7 +62,4 @@ img {
 .from-date {
   color:gray;
 }
-
-.media {
-}
 </style>
