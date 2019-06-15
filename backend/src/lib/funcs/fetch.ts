@@ -13,6 +13,7 @@ exports.fetch = functions.region('asia-northeast1').https.onRequest(async (req, 
   try {
     const items = await repository.fetch();
     finishFirebase(firebaseAdmin);
+    res.set('cache-control', 'public, max-age=600');
     return cors(req, res, () => res.send({ items }) );
   } catch (err) {
     finishFirebase(firebaseAdmin);
