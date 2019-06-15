@@ -14,3 +14,6 @@ dist/
 backend/lib
 backend/index.js
 backend/index.js.map
+
+# log files
+firebase-debug.log
