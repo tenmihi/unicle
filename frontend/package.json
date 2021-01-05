@@ -8,7 +8,7 @@
     "deploy": "npm run build && firebase deploy --only hosting"
   },
   "dependencies": {
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "buefy": "^0.7.7",
     "moment": "^2.24.0",
     "vue": "^2.6.10",
