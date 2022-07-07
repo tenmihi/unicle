@@ -25,7 +25,7 @@
     "cors": "^2.8.5",
     "firebase-admin": "^6.5.0",
     "firebase-functions": "^2.2.0",
-    "moment": "^2.23.0",
+    "moment": "^2.29.4",
     "ogp-parser": "git+https://github.com/tenmihi/ogpParser.git#issues/13",
     "rss-parser": "^3.6.2",
     "secure-compare": "^3.0.1",
