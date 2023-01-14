@@ -37,7 +37,7 @@
     "@types/node": "^10.12.18",
     "ts-loader": "^5.3.3",
     "typescript": "^3.2.4",
-    "webpack-cli": "^3.2.1",
+    "webpack-cli": "^3.3.12",
     "webpack-node-externals": "^1.7.2"
   }
 }
